@@ -1,0 +1,39 @@
+extends ../layout/admin
+
+block contenido
+    .py-1
+        h1.text-center.text-4xl.my-10.font-extrabold Administración
+            span.font-normal Zacatlán
+        h2.text-center.text-2xl.font-extrabold= pagina
+
+        a(href="/gerentes/crear" class="rounded py-2 px-10 bg-indigo-600 hover:bg-indigo-700 text-sm font-bold text-center text-white uppercase my-5 inline-block w-full sm:w-auto") Crear Gerente
+
+        //pre= JSON.stringify(gerentes, undefined, 2)
+
+        if (gerentes)
+            div(class="bg-white shadow rounded-lg")
+                ul(class="divide-y divide-gray-200")
+                    each gerente in gerentes 
+                        li 
+                            div(class="p-6 w-full flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-8 gap-4")
+                                div(class="sm:w-1/4 md:w-1/6")
+                                    
+
+
+                                div(class="sm:w-2/4 md:w-3/6 lg:w-4/6")
+                                    a( class="block text-2xl font-extrabold text-indigo-600 truncate")= `${gerente.nombre} ${gerente.ap_paterno} ${gerente.ap_materno}`
+
+                                    p(class=`text-sm text-black font-bold ${gerente.hotel ? '' : ''}`)=`${gerente.hotel ? 'Hotel: ' + gerente.hotel.nombre: 'Sin Hotel'}`
+
+                                    p(class="text-sm text-gray-500 font-bold") Telefono:  #{gerente.telefono}
+
+
+                                div(class="sm:w-1/4 md:w-2/6 lg:flex-1 flex flex-col gap-2 lg:flex-row")
+
+                                    a(href=`/gerentes/editar/${gerente.id_grt}` class="text-center px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded-sm cursor-pointer bg-indigo-100 text-indigo-800") Editar
+                                    form(method="POST" action=`/gerentes/eliminar/${gerente.id_grt}`)
+                                        input(type="hidden" name="_csrf" value=csrfToken)
+                                        input(type="submit" class=' w-full x-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded-sm cursor-pointer bg-red-100 text-red-800' value="Eliminar")
+
+        else 
+            p.text-center No hay gerentes 

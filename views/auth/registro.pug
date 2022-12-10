@@ -1,0 +1,47 @@
+extends ../layout/index 
+
+block contenido 
+    .py-10
+        h1.text-4xl.my-10.font-extrabold.text-center Administración 
+            span.font-normal Zacatlán
+        h2.text-center.text-2xl.font-extrabold= pagina
+
+        .mt-8.mx-auto.max-w-md
+            .bg-white.py-8.px-4.shadow
+              form.space-y-5(method="POST", action="/auth/registro")
+                div
+                    input(type="hidden" name="_csrf" value= csrfToken) 
+                    label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="nombre") Nombre 
+                    input#nombre.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Tu nombre" type="text" name="nombre" value= usuario ? usuario.nombre : '')
+                    if (errores)
+                        each error in errores
+                            if (error.param=='nombre')
+                                .bg-green-100.rounded-lg.py-5.px-6.mb-4.text-base.text-green-700.mb-3(role='alert')
+                                    | #{error.msg}
+                div 
+                    label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="email") Correo 
+                    input#email.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Tu correo" type="email" name="email" value= usuario ? usuario.email : '')
+                    if (errores)
+                        each error in errores
+                            if (error.param=='email')
+                                .bg-green-100.rounded-lg.py-5.px-6.mb-4.text-base.text-green-700.mb-3(role='alert')
+                                    | #{error.msg}
+                div    
+                    label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="password") Contraseña 
+                    input#password.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Tu contraseña" type="password" name="password")
+                    if (errores)
+                        each error in errores
+                            if (error.param=='password')
+                                .bg-green-100.rounded-lg.py-5.px-6.mb-4.text-base.text-green-700.mb-3(role='alert')
+                                    | #{error.msg}
+                div    
+                    label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for="repetir_password") Repetir Contraseña 
+                    input#repetir_password.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder="Repite tu contraseña" type="password" name="repetir_password")
+                    if (errores)
+                        each error in errores
+                            if (error.param=='repetir_password')
+                                .bg-green-100.rounded-lg.py-5.px-6.mb-4.text-base.text-green-700.mb-3(role='alert')
+                                    | #{error.msg}
+                div.flex.items-center-justify-between
+                    a.text-gray-500.text-xs(href="/auth/login") ¿Ya tienes cuenta? Inicia Sesión
+                input(class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer" type="submit", value="Crear Cuenta")
